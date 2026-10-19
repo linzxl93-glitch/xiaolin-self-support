@@ -1251,6 +1251,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     renderCalendar();
     renderHistory(selectedDateKey);
+    window.__vault && window.__vault.pushDate(selectedDateKey);
   }
 
   window.saveCurrentDay = function(){
@@ -1427,6 +1428,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ---------- per-date calendar sticky note ----------
   const CALENDAR_NOTE_PREFIX = 'xiaolinCalendarStickyNote:';
   const LEGACY_REMINDER_PREFIX = 'xiaolinSelfSupportReminders:';
+  window.__storePrefixes = { day: DAY_STORE_PREFIX, note: CALENDAR_NOTE_PREFIX };
 
   function getCalendarSticky(key){
     const direct = localStorage.getItem(CALENDAR_NOTE_PREFIX + key);
@@ -1458,6 +1460,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }else{
       localStorage.removeItem(CALENDAR_NOTE_PREFIX + key);
     }
+    window.__vault && window.__vault.pushDate(key);
   }
 
   function renderCalendarSticky(key){
@@ -1519,11 +1522,18 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ---------- initialize ----------
+  window.__rerenderAll = function(){
+    renderCalendar();
+    renderCalendarSticky(selectedDateKey);
+    renderSelectedDateExperience(selectedDateKey);
+    renderHistory(selectedDateKey);
+  };
   loadSelectedDay();
   renderSelectedDateExperience(selectedDateKey);
   renderHistory(selectedDateKey);
   renderCalendarSticky(selectedDateKey);
   renderCalendar();
+  window.__vault && window.__vault.start();
 });
 </script>
 
@@ -1534,6 +1544,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js"></script>
+<script src="assets/cloud-sync.js"></script>
 
 </body>
 </html>
