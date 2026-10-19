@@ -1,10 +1,11 @@
 /* 晓霖自我支持工作台 Service Worker：让已安装的 APP 离线也能打开、加载更快 */
-const CACHE_VERSION = 'xiaolin-self-support-v1';
+const CACHE_VERSION = 'xiaolin-self-support-v2';
 const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
   './assets/sticky-note-state.js',
+  './assets/cloud-sync.js',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',
   './assets/icons/maskable-512.png',

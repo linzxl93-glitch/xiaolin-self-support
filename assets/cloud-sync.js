@@ -49,7 +49,7 @@
           { name: 'PBKDF2', salt: enc.encode(APP_SALT), iterations: 100000, hash: 'SHA-256' },
           baseKey,
           { name: 'AES-GCM', length: 256 },
-          false,
+          true, // 需可导出：unlock() 会把钥匙缓存到本机，实现同设备免重复输密码
           ['encrypt', 'decrypt']
         );
       });
