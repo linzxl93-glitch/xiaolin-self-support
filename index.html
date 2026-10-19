@@ -4,6 +4,14 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title id="pageTitle">晓霖｜自我支持工作台 v1.1</title>
+<link rel="manifest" href="manifest.webmanifest" />
+<meta name="theme-color" content="#6f7d66" />
+<link rel="icon" type="image/png" href="assets/icons/icon-192.png" />
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="晓霖工作台" />
 <style>
   :root{
     --bg:#f4efe7;
@@ -1517,6 +1525,14 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCalendarSticky(selectedDateKey);
   renderCalendar();
 });
+</script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    });
+  }
 </script>
 
 </body>
