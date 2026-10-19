@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title id="pageTitle">晓霖｜自我支持工作台 v1.1</title>
+<style>
+  :root{
+    --bg:#f4efe7;
+    --card:#fffdf9;
+    --ink:#23211f;
+    --muted:#7b756f;
+    --line:#ded6cc;
+    --accent:#6f7d66;
+    --accent2:#9d705d;
+    --soft:#ebe4da;
+    --shadow:0 14px 32px rgba(62,51,43,.08);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:"PingFang SC","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+    background:linear-gradient(180deg,#f6f1ea 0%,#f1ebe2 100%);
+    color:var(--ink);
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:36px 22px 70px}
+  .hero{
+    display:flex;justify-content:space-between;gap:24px;align-items:flex-end;
+    padding:18px 4px 30px;border-bottom:1px solid var(--line)
+  }
+  h1{font-family:Georgia,"Songti SC",serif;font-size:42px;margin:0 0 10px;letter-spacing:.02em}
+  .hero p{margin:0;color:var(--muted);font-size:16px;line-height:1.7}
+  .datebox{font-size:13px;color:var(--muted);text-align:right;white-space:nowrap}
+  .quote{
+    margin:30px 0;background:#2b2a27;color:#f7f2eb;border-radius:24px;padding:28px 30px;
+    box-shadow:var(--shadow)
+  }
+  .quote strong{display:block;font-family:Georgia,"Songti SC",serif;font-size:25px;margin-bottom:10px}
+  .grid4,.grid3,.grid2{display:grid;gap:16px}
+  .grid4{grid-template-columns:repeat(4,1fr)}
+  .grid3{grid-template-columns:repeat(3,1fr)}
+  .grid2{grid-template-columns:repeat(2,1fr)}
+  .card{
+    background:rgba(255,253,249,.96);border:1px solid var(--line);border-radius:22px;
+    padding:22px;box-shadow:var(--shadow)
+  }
+  .mini{min-height:160px;cursor:pointer;transition:.2s ease}
+  .mini:hover{transform:translateY(-2px);border-color:#c5b8aa}
+  .eyebrow{font-size:12px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+  .mini h3,.card h2,.card h3{margin:8px 0 8px}
+  .mini h3{font-size:20px}
+  .mini p,.card p{color:var(--muted);line-height:1.65}
+  .section{margin-top:22px}
+  .section-title{display:flex;justify-content:space-between;align-items:flex-end;margin:34px 2px 12px}
+  .section-title h2{font-size:22px;margin:0}
+  .section-title span{color:var(--muted);font-size:13px}
+  textarea,input{
+    width:100%;border:1px solid var(--line);background:#fbf8f3;border-radius:14px;
+    padding:13px 14px;color:var(--ink);font-size:14px;outline:none
+  }
+  textarea{min-height:96px;resize:vertical;line-height:1.6}
+  textarea:focus,input:focus{border-color:#9baa90;background:white}
+  .one-thing{
+    display:grid;grid-template-columns:1.3fr .7fr;gap:16px;align-items:stretch
+  }
+  .focus{
+    background:#6f7d66;color:white;border:none
+  }
+  .focus p,.focus .eyebrow{color:#e9efe5}
+  .moods{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .mood{
+    border:1px solid var(--line);background:#fbf8f3;border-radius:999px;
+    padding:9px 12px;cursor:pointer;font-size:14px
+  }
+  .mood.active{background:#2b2a27;color:white;border-color:#2b2a27}
+  .btn{
+    border:none;border-radius:12px;padding:12px 16px;cursor:pointer;font-weight:700;
+    background:#2b2a27;color:#fff
+  }
+  .btn.soft{background:var(--soft);color:var(--ink)}
+  .btn.accent{background:var(--accent);color:white}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .evidence-output{
+    margin-top:14px;padding:15px 16px;background:#eef1eb;border-left:4px solid var(--accent);
+    border-radius:12px;line-height:1.75;display:none
+  }
+  .rescue{
+    background:#efe5de;border-color:#d8c3b6
+  }
+  .rescue-body{display:none;margin-top:16px}
+  .q{
+    padding:12px 0;border-top:1px dashed #cfb9aa
+  }
+  .q:first-child{border-top:none}
+  .tag{
+    display:inline-block;padding:5px 9px;border-radius:999px;background:#ece6dd;
+    color:#665f58;font-size:12px;margin-right:6px;margin-bottom:6px
+  }
+  .footer{
+    margin-top:40px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);
+    font-size:13px;text-align:center
+  }
+  @media(max-width:900px){
+    .grid4,.grid3,.grid2,.one-thing{grid-template-columns:1fr}
+    .hero{align-items:flex-start;flex-direction:column}
+    .datebox{text-align:left}
+    h1{font-size:34px}
+  }
+
+  .sticky-note{
+    position:fixed;right:22px;top:112px;width:280px;z-index:20;
+    background:#f6e7a8;border:1px solid #dfce85;border-radius:18px;
+    box-shadow:0 18px 40px rgba(70,58,37,.16);overflow:hidden;
+    transform:rotate(.4deg);
+  }
+  .sticky-head{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:13px 14px 10px;border-bottom:1px solid rgba(115,94,45,.15);
+  }
+  .sticky-head strong{font-family:Georgia,"Songti SC",serif;font-size:17px}
+  .sticky-actions{display:flex;gap:6px}
+  .sticky-icon{
+    border:none;background:rgba(255,255,255,.38);width:30px;height:30px;
+    border-radius:9px;cursor:pointer;font-size:14px;color:#5f5330
+  }
+  .sticky-body{padding:12px}
+  .sticky-body textarea{
+    min-height:210px;border:none;background:transparent;padding:4px;
+    font-size:14px;line-height:1.7;color:#4b4229;resize:vertical;
+  }
+  .sticky-body textarea:focus{background:rgba(255,255,255,.16);border:none}
+  .sticky-tip{font-size:11px;color:#81734a;margin-top:8px;line-height:1.5}
+  .sticky-note.collapsed{width:54px}
+  .sticky-note.collapsed .sticky-body,
+  .sticky-note.collapsed .sticky-title,
+  .sticky-note.collapsed .sticky-clear{display:none}
+  .sticky-note.collapsed .sticky-head{border-bottom:none;padding:10px}
+  @media(max-width:1280px){
+    .sticky-note{right:12px;top:auto;bottom:16px;width:250px}
+  }
+  @media(max-width:900px){
+    .sticky-note{right:12px;left:12px;bottom:12px;top:auto;width:auto;transform:none}
+    .sticky-body textarea{min-height:120px}
+  }
+
+
+  .calendar-shell{
+    margin-top:24px;
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    gap:18px;
+    align-items:start;
+  }
+  .calendar-card{
+    background:rgba(255,253,249,.97);
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:18px;
+    box-shadow:var(--shadow);
+    position:static;
+  }
+  .calendar-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:12px;
+  }
+  .calendar-top strong{
+    font-size:18px;
+    font-family:Georgia,"Songti SC",serif;
+  }
+  .calendar-nav{
+    border:none;
+    background:#eee8df;
+    color:#3f3b37;
+    border-radius:10px;
+    width:34px;height:34px;
+    cursor:pointer;
+    font-size:18px;
+  }
+  .weekdays,.calendar-grid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:6px;
+  }
+  .calendar-grid{grid-template-rows:repeat(6,54px)}
+  .weekdays div{
+    font-size:11px;
+    color:var(--muted);
+    text-align:center;
+    padding:4px 0 8px;
+  }
+  .day{
+    min-height:54px;
+    border:1px solid transparent;
+    background:#f8f4ee;
+    border-radius:10px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+    position:relative;
+    transition:.15s ease;
+  }
+  .day:hover{border-color:#b9ab9d;background:#fff}
+  .day.muted{opacity:.35}
+  .day.today{outline:2px solid var(--accent);outline-offset:1px}
+  .day.selected{background:#2b2a27;color:white}
+  .day.has-data::after{
+    content:"";
+    position:absolute;
+    bottom:5px;
+    width:5px;height:5px;
+    border-radius:50%;
+    background:var(--accent2);
+  }
+  .day.selected.has-data::after{background:#f1d5c7}
+  .calendar-legend{
+    margin-top:12px;
+    color:var(--muted);
+    font-size:11px;
+    line-height:1.5;
+  }
+  .history-panel{
+    background:rgba(255,253,249,.97);
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:22px;
+    box-shadow:var(--shadow);
+  }
+  .history-head{
+    display:flex;
+    justify-content:space-between;
+    gap:14px;
+    align-items:flex-start;
+    margin-bottom:16px;
+  }
+  .history-title{
+    font-size:22px;
+    margin:3px 0 0;
+    font-family:Georgia,"Songti SC",serif;
+  }
+  .history-meta{
+    color:var(--muted);
+    font-size:12px;
+  }
+  .history-actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .tiny-btn{
+    border:none;
+    padding:9px 11px;
+    border-radius:10px;
+    cursor:pointer;
+    background:#eee8df;
+    color:#2e2b28;
+    font-size:12px;
+  }
+  .tiny-btn.primary{background:var(--accent);color:white}
+  .history-empty{
+    border:1px dashed var(--line);
+    border-radius:16px;
+    padding:24px;
+    color:var(--muted);
+    text-align:center;
+    line-height:1.7;
+  }
+  .history-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+  }
+  .history-item{
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px;
+    background:#fbf8f3;
+  }
+  .history-item strong{
+    display:block;
+    margin-bottom:7px;
+    font-size:13px;
+  }
+  .history-item div{
+    color:#5c554f;
+    white-space:pre-wrap;
+    line-height:1.65;
+    font-size:13px;
+  }
+  .archive-note{
+    margin-top:12px;
+    padding:12px 14px;
+    background:#eef1eb;
+    border-radius:12px;
+    color:#4b5745;
+    font-size:12px;
+    line-height:1.6;
+  }
+  @media(max-width:900px){
+    .calendar-shell{grid-template-columns:1fr}
+    .calendar-card{position:static}
+    .history-grid{grid-template-columns:1fr}
+  }
+
+
+  .daily-words{
+    margin-top:34px;
+    background:linear-gradient(135deg,#2c2b28 0%,#3a3834 100%);
+    color:#f8f4ed;
+    border-radius:26px;
+    padding:28px;
+    box-shadow:var(--shadow);
+  }
+  .daily-words .eyebrow{color:#cfc7bd}
+  .daily-words h2{
+    margin:7px 0 18px;
+    font-family:Georgia,"Songti SC",serif;
+    font-size:25px;
+  }
+  .words-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+  }
+  .word-card{
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:17px;
+    padding:18px;
+    min-height:150px;
+  }
+  .word-type{
+    display:inline-block;
+    font-size:11px;
+    letter-spacing:.1em;
+    color:#d8d0c6;
+    margin-bottom:12px;
+  }
+  .word-text{
+    line-height:1.8;
+    font-size:15px;
+  }
+  .word-footer{
+    margin-top:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    color:#bbb2a7;
+    font-size:12px;
+  }
+  .words-btn{
+    border:1px solid rgba(255,255,255,.18);
+    background:transparent;
+    color:#f7f1e8;
+    padding:8px 11px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:12px;
+  }
+  @media(max-width:900px){
+    .words-grid{grid-template-columns:1fr}
+  }
+
+
+  .day.has-data{
+    background:#dfe8d9;
+    border-color:#b8c8ae;
+    color:#31402d;
+    font-weight:700;
+  }
+  .day.has-data::after{
+    display:none !important;
+  }
+  .day.selected{
+    background:#2b2a27 !important;
+    color:#fff !important;
+    border-color:#2b2a27 !important;
+    box-shadow:0 0 0 2px rgba(43,42,39,.12);
+  }
+  .day.today:not(.selected){
+    outline:2px solid var(--accent);
+    outline-offset:1px;
+  }
+  .calendar-legend .legend-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-right:10px;
+  }
+  .legend-swatch{
+    width:13px;height:13px;border-radius:4px;
+    background:#dfe8d9;border:1px solid #b8c8ae;
+    display:inline-block;
+  }
+  .selected-date-badge{
+    display:inline-block;
+    margin-top:6px;
+    padding:5px 9px;
+    border-radius:999px;
+    background:#eee8df;
+    color:#5b544d;
+    font-size:11px;
+  }
+
+
+  .reminder-swatch{
+    background:#f5e4a8 !important;
+    border-color:#ddc66e !important;
+  }
+  .day.has-reminder:not(.has-data){
+    background:#f8edc7;
+    border-color:#e5d38b;
+    color:#6b5723;
+    font-weight:700;
+  }
+  .day.has-reminder::before{
+    content:"";
+    position:absolute;
+    top:4px;right:4px;
+    width:6px;height:6px;
+    border-radius:50%;
+    background:#c69a24;
+  }
+  .day.selected.has-reminder::before{
+    background:#f2d879;
+  }
+  .reminder-panel{
+    margin-top:18px;
+    padding:20px;
+    border:1px solid #e5d7ad;
+    border-radius:18px;
+    background:linear-gradient(150deg,#fffaf0 0%,#fffdf8 100%);
+  }
+  .reminder-heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:12px;
+    margin-bottom:15px;
+  }
+  .reminder-heading h3{
+    margin:6px 0 4px;
+    font-size:19px;
+    font-family:Georgia,"Songti SC",serif;
+  }
+  .reminder-heading p{
+    margin:0;
+    color:#82765d;
+    font-size:12px;
+    line-height:1.6;
+  }
+  .reminder-count{
+    flex-shrink:0;
+    background:#f5e9bd;
+    color:#715d26;
+    padding:6px 10px;
+    border-radius:999px;
+    font-size:12px;
+  }
+  .reminder-form{
+    background:rgba(255,255,255,.72);
+    border:1px solid #eee2c2;
+    border-radius:15px;
+    padding:14px;
+  }
+  .reminder-fields{
+    display:grid;
+    grid-template-columns:1fr 160px;
+    gap:10px;
+    margin-bottom:10px;
+  }
+  .reminder-field{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    font-size:12px;
+    color:#766a51;
+  }
+  .reminder-field input,.reminder-field select{
+    width:100%;
+    border:1px solid #e4d8b9;
+    border-radius:10px;
+    padding:10px 11px;
+    background:#fffdf8;
+    color:#2d2a25;
+    font:inherit;
+  }
+  .reminder-text{
+    min-height:78px;
+    background:#fffdf8;
+    border-color:#e4d8b9;
+  }
+  .reminder-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:10px;
+  }
+  .quick-reminders{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+  }
+  .quick-reminder{
+    border:1px solid #e8dbb6;
+    background:#fcf5dd;
+    color:#766334;
+    border-radius:999px;
+    padding:7px 10px;
+    cursor:pointer;
+    font-size:11px;
+  }
+  .quick-reminder:hover{background:#f5e9bd}
+  .reminder-list{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+    margin-top:14px;
+  }
+  .reminder-empty{
+    text-align:center;
+    padding:18px 12px;
+    border:1px dashed #e5d7ad;
+    border-radius:13px;
+    color:#968a70;
+    font-size:12px;
+    line-height:1.7;
+  }
+  .reminder-item{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    border:1px solid #eee3c6;
+    border-radius:13px;
+    background:#fffdf8;
+    padding:12px;
+  }
+  .reminder-item.done{opacity:.62}
+  .reminder-item.done .reminder-message{text-decoration:line-through}
+  .reminder-check{
+    margin-top:3px;
+    width:16px;height:16px;
+    accent-color:#718266;
+    flex-shrink:0;
+    cursor:pointer;
+  }
+  .reminder-main{flex:1;min-width:0}
+  .reminder-meta{
+    display:flex;gap:7px;align-items:center;flex-wrap:wrap;
+    margin-bottom:5px;
+  }
+  .reminder-time{
+    font-size:12px;
+    font-weight:700;
+    color:#8b6a22;
+  }
+  .reminder-type-tag{
+    font-size:10px;
+    color:#817456;
+    background:#f5efd9;
+    border-radius:999px;
+    padding:3px 7px;
+  }
+  .reminder-message{
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+    font-size:13px;
+    line-height:1.65;
+    color:#4d463a;
+  }
+  .reminder-delete{
+    border:none;background:transparent;color:#a49a87;cursor:pointer;
+    padding:2px 4px;font-size:16px;
+  }
+  .reminder-delete:hover{color:#9c5e4c}
+  .reminder-footnote{
+    margin-top:12px;
+    color:#9a8d71;
+    font-size:11px;
+    line-height:1.6;
+  }
+  @media(max-width:900px){
+    .reminder-fields{grid-template-columns:1fr}
+    .reminder-heading{align-items:center}
+    .reminder-bottom{align-items:stretch}
+    .reminder-bottom .btn{width:100%}
+  }
+
+
+  .day.has-note:not(.has-data){
+    background:#f8edc7;
+    border-color:#e5d38b;
+    color:#6b5723;
+    font-weight:700;
+  }
+  .day.has-note::before{
+    content:"";
+    position:absolute;
+    top:4px;right:4px;
+    width:6px;height:6px;
+    border-radius:50%;
+    background:#c69a24;
+  }
+  .day.selected.has-note::before{background:#f2d879}
+  .calendar-sticky-panel{
+    margin-top:18px;
+    padding:20px;
+    border:1px solid #e5d7ad;
+    border-radius:18px;
+    background:linear-gradient(150deg,#fffaf0 0%,#fffdf8 100%);
+  }
+  .calendar-sticky-heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:12px;
+    margin-bottom:13px;
+  }
+  .calendar-sticky-heading h3{
+    margin:6px 0 4px;
+    font-size:19px;
+    font-family:Georgia,"Songti SC",serif;
+  }
+  .calendar-sticky-heading p{
+    margin:0;
+    color:#82765d;
+    font-size:12px;
+    line-height:1.6;
+  }
+  .calendar-sticky-status{
+    flex-shrink:0;
+    background:#e5ebdf;
+    color:#53684d;
+    padding:6px 10px;
+    border-radius:999px;
+    font-size:11px;
+  }
+  .calendar-sticky-status.is-dirty{
+    background:#fae7c6;
+    color:#805b18;
+  }
+  .calendar-sticky-text{
+    width:100%;
+    min-height:135px;
+    resize:vertical;
+    border:1px solid #e4d8b9;
+    border-radius:13px;
+    padding:14px;
+    background:#fffdf8;
+    color:#2d2a25;
+    font:inherit;
+    font-size:14px;
+    line-height:1.8;
+    outline:none;
+  }
+  .calendar-sticky-text:focus{
+    border-color:#c6b478;
+    box-shadow:0 0 0 3px rgba(198,180,120,.12);
+  }
+  .calendar-sticky-footer{
+    margin-top:10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    color:#9a8d71;
+    font-size:11px;
+    line-height:1.6;
+  }
+  @media(max-width:900px){
+    .calendar-sticky-footer{align-items:flex-start;flex-direction:column}
+    .calendar-sticky-heading{align-items:center}
+  }
+
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <div class="eyebrow">SELF SUPPORT WORKSPACE</div>
+      <h1 id="dailyGreeting">爱你，晓霖</h1>
+      <p id="dailyGreetingSub">先看见“人”，再看见“CEO”。今天不靠批评自己前进，而靠事实、理解和清晰。</p>
+    </div>
+    <div class="datebox" id="today"></div>
+  </header>
+
+  <section class="quote">
+    <strong>今天不需要证明自己有价值。</strong>
+    <div>只需要看见事实，认可努力，保护注意力，然后继续往前走。</div>
+  </section>
+
+  <div class="section-title"><h2>日历｜过去的我</h2><span>点某一天，查看那一天完整记录</span></div>
+  <section class="calendar-shell">
+    <div class="calendar-card">
+      <div class="calendar-top">
+        <button class="calendar-nav" onclick="changeMonth(-1)">‹</button>
+        <strong id="calendarMonth"></strong>
+        <button class="calendar-nav" onclick="changeMonth(1)">›</button>
+      </div>
+      <div class="weekdays">
+        <div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div><div>日</div>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
+      <div class="calendar-legend"><span class="legend-chip"><span class="legend-swatch"></span>绿色 = 当天有记录</span><span class="legend-chip"><span class="legend-swatch reminder-swatch"></span>黄色 = 当天有便利贴</span><div style="margin-top:7px">可提前写未来，也可补写过去。</div></div>
+    </div>
+
+    <div class="history-panel">
+      <div class="history-head">
+        <div>
+          <div class="eyebrow">DAILY ARCHIVE</div>
+          <div class="history-title" id="historyTitle">今天</div>
+          <div class="history-meta" id="historyMeta"></div><div class="selected-date-badge" id="selectedDateBadge">正在编辑：今天</div>
+        </div>
+        <div class="history-actions">
+          <button class="tiny-btn" onclick="jumpToToday()">回到今天</button>
+          <button class="tiny-btn primary" onclick="saveCurrentDay()">保存这一天</button>
+        </div>
+      </div>
+      <div id="historyContent" class="history-empty">
+        这一天还没有归档。你可以直接在下面填写，内容会自动保存；以后从日历点回来就能看到。
+      </div>
+      <div class="archive-note">每日工作台输入会自动保存在当前浏览器；便利贴按日期保存，需点击“保存便利贴”。它是页面内记录，不会在浏览器关闭时主动弹出系统通知。</div>
+
+      
+      <section class="calendar-sticky-panel" aria-label="这一天的便利贴">
+        <div class="calendar-sticky-heading">
+          <div>
+            <div class="eyebrow">A LITTLE NOTE FOR THIS DAY</div>
+            <h3>这一天的便利贴</h3>
+            <p id="calendarStickyDate">给这一天的晓霖留句话。想到什么就写下来，不用分类。</p>
+          </div>
+          <span class="calendar-sticky-status" id="calendarStickyStatus" role="status" aria-live="polite">已保存</span>
+        </div>
+        <textarea id="calendarStickyText" class="calendar-sticky-text" placeholder="例如：今天先做好最重要的一件事。&#10;&#10;或者：如果今天不顺，也不要急着否定自己。"></textarea>
+        <div class="calendar-sticky-footer">
+          <span>点选不同日期，就能查看那一天的便利贴。未来可以提前写，过去也可以补记。</span>
+          <div class="row">
+            <button type="button" class="tiny-btn" onclick="clearCalendarSticky()">清空这张便签</button>
+            <button type="button" class="tiny-btn primary" onclick="saveCalendarStickyForSelectedDate()">保存便利贴</button>
+          </div>
+        </div>
+      </section>
+
+
+    </div>
+  </section>
+
+  <section class="grid4">
+    <div class="card mini" onclick="scrollToId('encourage')">
+      <div class="eyebrow">ENCOURAGE</div><h3 id="encourageTitle">鼓励</h3>
+      <p id="encouragePrompt">今天哪怕只能往前一步，我愿意做什么？</p>
+    </div>
+    <div class="card mini" onclick="scrollToId('evidence')">
+      <div class="eyebrow">RECOGNIZE</div><h3 id="recognizeTitle">认可</h3>
+      <p id="recognizePrompt">我已经做对了什么？先找证据，不急着评价。</p>
+    </div>
+    <div class="card mini" onclick="scrollToId('evidence')">
+      <div class="eyebrow">AFFIRM</div><h3 id="affirmTitle">肯定</h3>
+      <p id="affirmPrompt">这件事情说明我具备什么能力？</p>
+    </div>
+    <div class="card mini" onclick="scrollToId('care')">
+      <div class="eyebrow">CARE</div><h3 id="careTitle">关怀</h3>
+      <p id="carePrompt">此刻我真正需要的是解决问题，还是降低负荷？</p>
+    </div>
+  </section>
+
+  <div class="section-title"><h2>今天，只做好一件事</h2><span>不是待办清单，是注意力保护</span></div>
+  <section class="one-thing" id="encourage">
+    <div class="card focus">
+      <div class="eyebrow">ONE THING</div>
+      <h2>今天最值得我推进的一件事</h2>
+      <textarea id="oneThing" data-key="oneThing" placeholder="例如：把波塞冬品销宝第一版素材定下来。"></textarea>
+    </div>
+    <div class="card">
+      <div class="eyebrow">STATE</div><h3>我现在是什么状态？</h3>
+      <div class="moods">
+        <button class="mood" onclick="pickMood(this)">有力</button>
+        <button class="mood" onclick="pickMood(this)">平稳</button>
+        <button class="mood" onclick="pickMood(this)">疲惫</button>
+        <button class="mood" onclick="pickMood(this)">焦虑</button>
+        <button class="mood" onclick="pickMood(this)">混乱</button>
+      </div>
+      <p style="margin-top:16px">状态只是信息，不是对你的评价。</p>
+    </div>
+  </section>
+
+  <div class="section-title" id="evidence"><h2>我做到了｜能力证据</h2><span id="evidenceSubtitle">事件 → 意义 → 能力</span></div>
+  <section class="card">
+    <div class="grid3">
+      <div>
+        <div class="eyebrow">01 FACT</div><h3>发生了什么？</h3>
+        <textarea id="fact" data-key="fact" placeholder="只写事实。例如：今天终于把一套海报风格定下来了。"></textarea>
+      </div>
+      <div>
+        <div class="eyebrow">02 VALUE</div><h3>我做对了什么？</h3>
+        <textarea id="value" data-key="value" placeholder="例如：没有继续乱试，而是把参考风格抽象成具体规则。"></textarea>
+      </div>
+      <div>
+        <div class="eyebrow">03 CAPABILITY</div><h3>体现了什么能力？</h3>
+        <textarea id="capability" data-key="capability" placeholder="例如：审美判断、系统化、执行推进、经营判断。"></textarea>
+      </div>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <button class="btn accent" onclick="generateEvidence()">生成“证据式肯定”</button>
+      <span class="tag">禁止无证据表扬</span><span class="tag">只基于你写下的事实</span>
+    </div>
+    <div class="evidence-output" id="evidenceOutput"></div>
+  </section>
+
+  <div class="section-title"><h2>今天产生了什么成果？</h2><span>不只用成交判断一天有没有价值</span></div>
+  <section class="grid3">
+    <div class="card"><div class="eyebrow">RESULT</div><h3>结果成果</h3><p>已经直接产生订单、利润、交付或明确结果。</p><textarea data-key="resultOutcome" placeholder="今天有哪些已经落地的结果？"></textarea></div>
+    <div class="card"><div class="eyebrow">ASSET</div><h3>资产成果</h3><p>未来可以重复使用的 SOP、素材、标准、模板、数据。</p><textarea data-key="assetOutcome" placeholder="今天积累了什么可以重复使用？"></textarea></div>
+    <div class="card"><div class="eyebrow">INSIGHT</div><h3>认知成果</h3><p>今天终于弄明白了什么？哪一个判断更清晰了？</p><textarea data-key="insightOutcome" placeholder="今天真正想通了什么？"></textarea></div>
+  </section>
+
+  <div class="section-title" id="care"><h2>关怀，而不是继续逼自己</h2><span id="careSubtitle">今天辛苦你的地方，也值得被记录</span></div>
+  <section class="grid2">
+    <div class="card">
+      <div class="eyebrow">CARE</div><h3>今天哪里最消耗我？</h3>
+      <textarea data-key="careDrain" placeholder="例如：反复改图还是不对，让我很挫败。"></textarea>
+      <p>如果这是你很好的朋友经历这件事，你会怎么对她说？</p>
+      <textarea data-key="careToSelf" placeholder="用你对朋友的语气，写给自己。"></textarea>
+    </div>
+    <div class="card">
+      <div class="eyebrow">PERMISSION</div><h3>今天允许自己不做什么？</h3>
+      <textarea data-key="permission" placeholder="例如：今晚不需要把整个第四季度都想清楚。"></textarea>
+      <p>停止做某件事，也可能是在保护真正重要的事。</p>
+    </div>
+  </section>
+
+  <div class="section-title"><h2>低谷急救</h2><span>不是立刻积极，而是先把自己从自我攻击里拉出来</span></div>
+  <section class="card rescue">
+    <div class="row" style="justify-content:space-between">
+      <div><div class="eyebrow">EMERGENCY MODE</div><h3 style="margin-bottom:0">我今天状态很差</h3></div>
+      <button class="btn" onclick="toggleRescue()">打开急救模式</button>
+    </div>
+    <div class="rescue-body" id="rescueBody">
+      <div class="q"><strong>1. 现在发生了什么事实？</strong><textarea data-key="rescueFact"></textarea></div>
+      <div class="q"><strong>2. 哪些是事实，哪些只是我的担心？</strong><textarea data-key="rescueWorry"></textarea></div>
+      <div class="q"><strong>3. 今天我已经做过什么？</strong><textarea data-key="rescueDone"></textarea></div>
+      <div class="q"><strong>4. 现在最小可以推进的一步是什么？</strong><textarea data-key="rescueNext"></textarea></div>
+      <div class="q"><strong>5. 今天有什么事情可以明天再处理？</strong><textarea data-key="rescueTomorrow"></textarea></div>
+      <p><strong>今天不需要把所有问题解决。</strong> 先让自己回到事实，再决定下一步。</p>
+    </div>
+  </section>
+
+  <div class="section-title"><h2>晚间复盘</h2><span id="eveningSubtitle">今天结束时，不审判，只归档</span></div>
+  <section class="grid2">
+    <div class="card">
+      <div class="eyebrow">EVENING</div><h3>今天值得被看见的三件事</h3>
+      <input data-key="evening1" placeholder="1. 我做到了……" /><br><br>
+      <input data-key="evening2" placeholder="2. 我做对了……" /><br><br>
+      <input data-key="evening3" placeholder="3. 我学会了……" />
+    </div>
+    <div class="card">
+      <div class="eyebrow">TOMORROW</div><h3>明天只继续一件事</h3>
+      <textarea data-key="tomorrowOne" placeholder="明天继续推进什么，就够了？"></textarea>
+      <p>不要把今天没做完的所有东西都搬到明天。</p>
+    </div>
+  </section>
+
+  <div class="section-title"><h2>这一周的我，值得被看见</h2><span>未来可以接入 AI 自动汇总</span></div>
+  <section class="card">
+    <div class="grid3">
+      <div><h3>本周我解决了什么？</h3><textarea data-key="weekSolved"></textarea></div>
+      <div><h3>本周我学会了什么？</h3><textarea data-key="weekLearned"></textarea></div>
+      <div><h3>本周哪里其实很辛苦？</h3><textarea data-key="weekHard"></textarea></div>
+    </div>
+    <div style="margin-top:16px">
+      <h3>这一周，我看见自己……</h3>
+      <textarea data-key="weekSeen" placeholder="以后这里可由 AI 基于整周记录自动生成，而不是凭空鼓励。"></textarea>
+    </div>
+  </section>
+
+
+  <section class="daily-words">
+    <div class="eyebrow">WORDS FOR XIAOLIN</div>
+    <h2>今天想对晓霖说的话</h2>
+    <div class="words-grid">
+      <div class="word-card">
+        <div class="word-type">鼓励 ENCOURAGE</div>
+        <div class="word-text" id="encourageWord"></div>
+      </div>
+      <div class="word-card">
+        <div class="word-type">认可 RECOGNIZE</div>
+        <div class="word-text" id="recognizeWord"></div>
+      </div>
+      <div class="word-card">
+        <div class="word-type">关怀 CARE</div>
+        <div class="word-text" id="careWord"></div>
+      </div>
+    </div>
+    <div class="word-footer">
+      <span id="wordDate"></span>
+      <button class="words-btn" onclick="nextWords()">再给我一句</button>
+    </div>
+  </section>
+
+  <div class="footer">v1.1 · 日历便利贴版 · 便利贴需手动保存 · 数据保存在当前浏览器 · 不接 API</div>
+</div>
+
+
+<script src="./assets/sticky-note-state.js"></script>
+<script>
+const {
+  createStickyNoteState: makeStickyNoteState,
+  updateStickyNoteDraft: updateStickyDraft,
+  saveStickyNoteDraft: commitStickyDraft,
+  discardStickyNoteDraft: discardStickyDraft,
+} = window.stickyNoteState;
+
+document.addEventListener('DOMContentLoaded', () => {
+  const DAY_STORE_PREFIX = 'xiaolinSelfSupportDay:';
+  const LEGACY_STORE_PREFIX = 'standByMyselfDay:';
+
+  let selectedDateKey = formatDateKey(new Date());
+  let calendarCursor = new Date();
+  calendarCursor.setDate(1);
+  let wordOffset = 0;
+  let stickyNoteState = makeStickyNoteState();
+
+  // ---------- helpers ----------
+  function formatDateKey(date){
+    const y = date.getFullYear();
+    const m = String(date.getMonth()+1).padStart(2,'0');
+    const d = String(date.getDate()).padStart(2,'0');
+    return `${y}-${m}-${d}`;
+  }
+
+  function parseDateKey(key){
+    const [y,m,d] = key.split('-').map(Number);
+    return new Date(y,m-1,d);
+  }
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, m => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+    }[m]));
+  }
+
+  function simpleHash(str){
+    let h = 0;
+    for(let i=0;i<str.length;i++){
+      h = ((h << 5) - h) + str.charCodeAt(i);
+      h |= 0;
+    }
+    return Math.abs(h);
+  }
+
+  function getStoredDay(key){
+    const raw = localStorage.getItem(DAY_STORE_PREFIX + key)
+      || localStorage.getItem(LEGACY_STORE_PREFIX + key);
+    if(!raw) return {};
+    try { return JSON.parse(raw) || {}; } catch(e){ return {}; }
+  }
+
+  function hasMeaningfulData(data){
+    return Object.entries(data || {}).some(([k,v]) => {
+      if(k === 'savedAt') return false;
+      return String(v ?? '').trim() !== '';
+    });
+  }
+
+  // ---------- general UI ----------
+  window.scrollToId = function(id){
+    document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+  };
+
+  window.toggleRescue = function(){
+    const body = document.getElementById('rescueBody');
+    if(body) body.style.display = body.style.display === 'block' ? 'none' : 'block';
+  };
+
+  window.pickMood = function(btn){
+    document.querySelectorAll('.mood').forEach(x=>x.classList.remove('active'));
+    btn.classList.add('active');
+    saveSelectedDay();
+  };
+
+  window.generateEvidence = function(){
+    const f = document.getElementById('fact')?.value.trim() || '';
+    const v = document.getElementById('value')?.value.trim() || '';
+    const c = document.getElementById('capability')?.value.trim() || '';
+    const out = document.getElementById('evidenceOutput');
+    if(!out) return;
+    if(!f){
+      out.style.display='block';
+      out.innerHTML='先写一条真实发生的事情。没有事实，就不生成肯定。';
+      return;
+    }
+    let s = `你真实做到的是：<strong>${escapeHtml(f)}</strong>。`;
+    if(v) s += ` 这里值得认可的不是“你很棒”，而是你具体做对了：<strong>${escapeHtml(v)}</strong>。`;
+    if(c) s += ` 这件事至少提供了一条关于你的能力证据：<strong>${escapeHtml(c)}</strong>。`;
+    s += ` 先把这条证据留下来，不需要把所有问题都解决，才能承认它成立。`;
+    out.innerHTML=s;
+    out.style.display='block';
+  };
+
+  // ---------- content libraries ----------
+  const dailyGreetings = [
+    {title:"爱你，晓霖", sub:"今天不用证明什么，先好好陪自己把这一天过完。"},
+    {title:"加油，晓霖", sub:"不用冲得很快，把最重要的一件事往前推一点就好。"},
+    {title:"辛苦了，晓霖", sub:"你已经承担很多了，今天也记得给自己留一点余地。"},
+    {title:"相信自己，晓霖", sub:"你不需要现在就知道所有答案，先相信自己的判断会越来越清楚。"},
+    {title:"慢慢来，晓霖", sub:"节奏慢一点没有关系，稳定地走也是前进。"},
+    {title:"抱抱自己，晓霖", sub:"今天如果有点难，就先别急着批评自己。"},
+    {title:"做得不错，晓霖", sub:"先看见已经做到的部分，再决定下一步要补什么。"},
+    {title:"别怕，晓霖", sub:"很多事情只是还没找到答案，不代表你做不到。"},
+    {title:"稳住，晓霖", sub:"先回到事实，别让一时的焦虑替你做决定。"},
+    {title:"今天也很好，晓霖", sub:"不是因为一切顺利，而是你依然在认真生活和工作。"},
+    {title:"给自己一点耐心，晓霖", sub:"真正重要的变化，本来就需要时间积累。"},
+    {title:"为自己骄傲，晓霖", sub:"你已经走过很多以前觉得很难的事情，别忘了把这些算进去。"},
+    {title:"照顾好自己，晓霖", sub:"你的状态也是工作的一部分，不需要把自己排在最后。"},
+    {title:"今天重新开始，晓霖", sub:"昨天的结果不需要决定今天的心情和方向。"},
+    {title:"你可以的，晓霖", sub:"不要求完美，只要求今天做一个真实、清楚的动作。"},
+    {title:"谢谢自己，晓霖", sub:"谢谢你一直没有放弃那个想把生活和工作过好的自己。"}
+  ];
+
+  const dailyModuleVariants = {
+    encourage: [
+      ["鼓励", "今天哪怕只能往前一步，我愿意做什么？"],
+      ["往前一点", "今天最小但最有价值的一步是什么？"],
+      ["给自己一点劲", "如果不用一次解决全部，我现在愿意先做哪一件？"],
+      ["继续就很好", "今天怎样做，能让我晚上觉得自己没有放弃？"],
+      ["先做一点", "哪件事只做20分钟，也会让今天更踏实？"],
+      ["稳稳推进", "今天什么动作最能让我重新找回掌控感？"],
+      ["今天也可以", "如果只要求完成60分，我会先开始什么？"],
+      ["给未来铺一步", "今天哪件小事，会让明天的我更轻松？"],
+      ["重新出发", "不管刚才发生什么，现在我愿意从哪里重新开始？"],
+      ["相信行动", "先不想结果，我现在能完成的下一步是什么？"],
+      ["只走今天这段", "今天这一小段路，我想怎样走得稳一点？"],
+      ["别急，继续", "有什么事不用做到完美，也值得先完成？"]
+    ],
+    recognize: [
+      ["认可", "我已经做对了什么？先找证据，不急着评价。"],
+      ["看见自己", "今天有什么事情，其实比我第一反应里做得更好？"],
+      ["算上这些", "有哪些完成、判断或坚持，我刚才差点没把它们算进去？"],
+      ["别漏掉成果", "今天有什么小成果，被我因为“不够大”而忽略了？"],
+      ["看见已经发生的", "今天哪件事证明我确实在往前走？"],
+      ["给事实一个位置", "如果只看事实，不看情绪，我今天完成了什么？"],
+      ["承认进步", "今天和过去相比，我在哪件事上处理得更成熟？"],
+      ["留下证据", "今天哪一个决定、动作或坚持值得记录下来？"],
+      ["不只看没做到的", "今天除了没完成的，还有什么其实已经做成？"],
+      ["看见积累", "今天有什么东西正在变成我的经验、方法或资产？"],
+      ["确认付出", "今天哪里真的花了我的精力，也值得被我自己承认？"],
+      ["把功劳还给自己", "今天哪件事的推进，确实有我的判断和努力在里面？"]
+    ],
+    affirm: [
+      ["肯定", "这件事情说明我具备什么能力？"],
+      ["确认能力", "今天这件事背后，我用了什么能力才走到这里？"],
+      ["相信自己的部分", "哪一个表现说明我比自己想象中更有能力？"],
+      ["看见我的长处", "今天哪一种能力，在真实工作里再次出现了？"],
+      ["我会什么", "如果把今天当成证据，它证明我已经会什么了？"],
+      ["把能力说清楚", "今天的结果里，有哪些不是运气，而是我的能力？"],
+      ["确认成长", "哪件事说明我正在变成更成熟的自己？"],
+      ["我的底气来自这里", "今天哪一条事实，可以成为以后自信的证据？"],
+      ["我不是从零开始", "过去积累的什么能力，今天再次帮到了我？"],
+      ["能力正在长出来", "今天哪一个处理方式，说明我的判断更稳了？"],
+      ["这就是我的实力", "今天哪件事做完后，我可以坦然地说：这个我会。"],
+      ["记住这一点", "如果以后我怀疑自己，今天哪件事值得拿出来提醒自己？"]
+    ],
+    care: [
+      ["关怀", "此刻我真正需要的是解决问题，还是降低负荷？"],
+      ["照顾一下自己", "现在让我舒服10%的一件小事是什么？"],
+      ["别把自己放最后", "今天我有没有什么需要，已经被工作压到后面了？"],
+      ["允许一下", "今天有什么地方，我可以不再对自己这么严格？"],
+      ["给自己一点余地", "哪件事今天做到这里，其实已经可以停了？"],
+      ["听听自己的状态", "如果身体和情绪会说话，它现在最想提醒我什么？"],
+      ["先别逼自己", "我现在是需要答案，还是更需要休息和缓冲？"],
+      ["温柔一点", "如果这是我在意的人，我会怎么对待她现在的疲惫？"],
+      ["把压力放下一点", "今天有什么责任，其实不需要全部由我一个人扛？"],
+      ["允许今天普通一点", "如果今天不追求高产，我最想保护什么？"],
+      ["留一点空间", "今天还可以删掉、推迟或放下哪一件事？"],
+      ["先照顾人，再处理事", "在继续工作前，我现在最需要补充什么？"]
+    ]
+  };
+
+  const dailySectionVariants = {
+    evidence: [
+      "事件 → 意义 → 能力",
+      "不夸空话，只留真实证据",
+      "把今天的进步变成以后能相信的东西",
+      "事实先于评价",
+      "今天发生的，也是在积累未来的底气",
+      "每一条能力，都从真实事情里长出来"
+    ],
+    care: [
+      "今天辛苦你的地方，也值得被记录",
+      "不只有完成值得记录，消耗也值得",
+      "先照顾承受这一切的自己",
+      "今天不需要每件事都靠硬撑",
+      "关怀不是奖励，是日常维护",
+      "对自己好一点，不会让你变懒"
+    ],
+    evening: [
+      "今天结束时，不审判，只归档",
+      "不是打分，是把今天好好收回来",
+      "把今天放好，明天再继续",
+      "不追究，只看见",
+      "今天有结果，也有过程",
+      "睡前不做审判官，只做记录者"
+    ]
+  };
+
+  const dailyWords = {
+    encourage: [
+      "今天不需要一下子把所有事情都解决。把最重要的一件事往前推一点，就已经是在前进。",
+      "允许自己慢一点，但不要因此否定方向。稳定地走，本身就是能力。",
+      "有些成果今天还看不见，不代表今天做的事情没有价值。",
+      "不用等状态完美才开始。先做一个最小动作，状态会在行动里回来。",
+      "晓霖，今天只需要把属于今天的这一小段路走好。",
+      "复杂的问题可以拆开来解决，不需要一次承担全部重量。",
+      "你不需要用焦虑证明自己认真。清晰、专注地做一件事，也是一种努力。",
+      "当事情很多时，减少任务不是退缩，而是在保护真正重要的目标。",
+      "今天可以重新开始，不必因为上午不顺，就把整天都判定为失败。",
+      "不要急着追求巨大突破。很多真正重要的变化，都是由连续的小完成组成的。"
+    ],
+    recognize: [
+      "你愿意停下来整理、复盘、找规律，本身就说明你不是只靠情绪做事，而是在建立自己的判断。",
+      "当你开始把混乱的事情变成流程、标准和方法，那些努力已经在形成可以复用的能力。",
+      "能够发现“哪里不对”，也是能力。判断力往往先于解决方案出现。",
+      "不是只有赚钱和成交才算成果。一个被想明白的问题，也是在给未来减少成本。",
+      "你今天愿意记录自己的状态，而不是只盯着结果，这也是一种成熟。",
+      "每一次把模糊的感觉说清楚，都是在提高你理解自己和理解工作的能力。",
+      "你没有因为一个结果不好就完全放弃，而是继续找原因，这份持续性值得被记录。",
+      "当你开始问“这件事以后怎么不重复做”，说明你正在从执行者走向搭系统的人。",
+      "你已经积累了很多过去没有的判断标准。它们可能不显眼，但会在下一次决定里帮到你。",
+      "真正的成长不一定表现为更忙，也可能表现为：更快知道什么不值得做。"
+    ],
+    care: [
+      "如果今天已经很累，就不要再要求自己用疲惫的状态做出完美决定。",
+      "你可以关心结果，也可以同时关心那个正在承担结果的自己。",
+      "有些问题适合今晚停在这里。休息不是逃避，而是在恢复判断力。",
+      "允许自己有情绪，不需要马上把每一种难受都转化成成长。",
+      "今天如果做不到很多，也不代表你退步了。人本来就有不同的能量周期。",
+      "别把所有不确定都变成自己的责任。有些答案真的需要时间出现。",
+      "晓霖，今天辛苦的部分也应该被看见，而不是只留下没完成的部分。",
+      "你可以对自己要求高，但不必用责备来维持标准。",
+      "当脑子已经很满的时候，先休息、吃饭、睡觉，也可能是今天最正确的决定。",
+      "不管今天结果怎样，都不需要因此重新判断自己的价值。"
+    ]
+  };
+
+  // ---------- selected-date experience ----------
+  function pickDailyVariant(arr, salt, key){
+    return arr[simpleHash(key + salt) % arr.length];
+  }
+
+  function renderSelectedDateExperience(key){
+    const date = parseDateKey(key);
+    const todayKey = formatDateKey(new Date());
+    const isToday = key === todayKey;
+
+    // top greeting
+    const g = dailyGreetings[simpleHash(key + "-greeting") % dailyGreetings.length];
+    document.getElementById('dailyGreeting').textContent = g.title;
+    document.getElementById('dailyGreetingSub').textContent = g.sub;
+    document.title = `${g.title}｜自我支持工作台`;
+
+    // top date
+    const dateBox = document.getElementById('today');
+    if(dateBox){
+      dateBox.innerHTML =
+        `${date.getFullYear()}年${date.getMonth()+1}月${date.getDate()}日<br>` +
+        (isToday ? "今天也好好站在自己这一边" : "正在查看这一天的自己");
+    }
+
+    // module cards
+    const e = pickDailyVariant(dailyModuleVariants.encourage, "-encourage", key);
+    const r = pickDailyVariant(dailyModuleVariants.recognize, "-recognize", key);
+    const a = pickDailyVariant(dailyModuleVariants.affirm, "-affirm", key);
+    const c = pickDailyVariant(dailyModuleVariants.care, "-care", key);
+
+    document.getElementById('encourageTitle').textContent = e[0];
+    document.getElementById('encouragePrompt').textContent = e[1];
+    document.getElementById('recognizeTitle').textContent = r[0];
+    document.getElementById('recognizePrompt').textContent = r[1];
+    document.getElementById('affirmTitle').textContent = a[0];
+    document.getElementById('affirmPrompt').textContent = a[1];
+    document.getElementById('careTitle').textContent = c[0];
+    document.getElementById('carePrompt').textContent = c[1];
+
+    document.getElementById('evidenceSubtitle').textContent =
+      pickDailyVariant(dailySectionVariants.evidence, "-evidence-sub", key);
+    document.getElementById('careSubtitle').textContent =
+      pickDailyVariant(dailySectionVariants.care, "-care-sub", key);
+    document.getElementById('eveningSubtitle').textContent =
+      pickDailyVariant(dailySectionVariants.evening, "-evening-sub", key);
+
+    // bottom words
+    const base = simpleHash(key) + wordOffset;
+    document.getElementById('encourageWord').textContent =
+      dailyWords.encourage[base % dailyWords.encourage.length];
+    document.getElementById('recognizeWord').textContent =
+      dailyWords.recognize[(base * 3 + 1) % dailyWords.recognize.length];
+    document.getElementById('careWord').textContent =
+      dailyWords.care[(base * 5 + 2) % dailyWords.care.length];
+    document.getElementById('wordDate').textContent =
+      `${date.getFullYear()}年${date.getMonth()+1}月${date.getDate()}日 · 给这一天的晓霖`;
+
+    // editor badge
+    const badge = document.getElementById('selectedDateBadge');
+    if(badge){
+      badge.textContent = `正在编辑：${isToday ? '今天 · ' : ''}${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+    }
+  }
+
+  window.nextWords = function(){
+    wordOffset += 1;
+    renderSelectedDateExperience(selectedDateKey);
+  };
+
+  // ---------- form persistence ----------
+  function collectSelectedDay(){
+    const payload = {};
+    document.querySelectorAll('[data-key]').forEach(el => {
+      payload[el.dataset.key] = el.value || '';
+    });
+    const activeMood = document.querySelector('.mood.active');
+    payload.mood = activeMood ? activeMood.textContent.trim() : '';
+    payload.savedAt = new Date().toISOString();
+    return payload;
+  }
+
+  function saveSelectedDay(){
+    const data = collectSelectedDay();
+    const storageKey = DAY_STORE_PREFIX + selectedDateKey;
+    if(hasMeaningfulData(data)){
+      localStorage.setItem(storageKey, JSON.stringify(data));
+    }else{
+      localStorage.removeItem(storageKey);
+      // Do not delete old legacy data automatically.
+    }
+    renderCalendar();
+    renderHistory(selectedDateKey);
+  }
+
+  window.saveCurrentDay = function(){
+    saveSelectedDay();
+  };
+
+  function loadSelectedDay(){
+    const data = getStoredDay(selectedDateKey);
+
+    document.querySelectorAll('[data-key]').forEach(el => {
+      el.value = data[el.dataset.key] || '';
+    });
+
+    document.querySelectorAll('.mood').forEach(x => x.classList.remove('active'));
+    if(data.mood){
+      document.querySelectorAll('.mood').forEach(btn => {
+        if(btn.textContent.trim() === data.mood) btn.classList.add('active');
+      });
+    }
+
+    const out = document.getElementById('evidenceOutput');
+    if(out){
+      out.style.display = 'none';
+      out.innerHTML = '';
+    }
+  }
+
+  document.querySelectorAll('[data-key]').forEach(el => {
+    el.addEventListener('input', saveSelectedDay);
+    el.addEventListener('change', saveSelectedDay);
+  });
+
+  // ---------- history summary ----------
+  function renderHistory(key){
+    const date = parseDateKey(key);
+    const todayKey = formatDateKey(new Date());
+    document.getElementById('historyTitle').textContent =
+      key === todayKey ? '今天' : `${date.getMonth()+1}月${date.getDate()}日`;
+    document.getElementById('historyMeta').textContent = key;
+
+    const data = getStoredDay(key);
+    const content = document.getElementById('historyContent');
+
+    if(!hasMeaningfulData(data)){
+      content.className = 'history-empty';
+      content.innerHTML = '这一天还没有填写。直接在下面任何区域输入内容，这个日期就会自动变色并保存。';
+      return;
+    }
+
+    const labels = {
+      mood:'当时状态',
+      oneThing:'今天只做好一件事',
+      fact:'发生了什么',
+      value:'我做对了什么',
+      capability:'体现的能力',
+      resultOutcome:'结果成果',
+      assetOutcome:'资产成果',
+      insightOutcome:'认知成果',
+      careDrain:'今天哪里最消耗',
+      careToSelf:'我会怎么对自己说',
+      permission:'允许自己不做什么',
+      rescueFact:'急救｜发生了什么事实',
+      rescueWorry:'急救｜哪些是担心',
+      rescueDone:'急救｜已经做过什么',
+      rescueNext:'急救｜最小下一步',
+      rescueTomorrow:'急救｜可以明天处理',
+      evening1:'晚间｜我做到了',
+      evening2:'晚间｜我做对了',
+      evening3:'晚间｜我学会了',
+      tomorrowOne:'明天只继续一件事',
+      weekSolved:'本周解决',
+      weekLearned:'本周学会',
+      weekHard:'本周辛苦',
+      weekSeen:'这一周我看见自己'
+    };
+
+    const items = [];
+    Object.keys(labels).forEach(k => {
+      if(data[k] && String(data[k]).trim()){
+        items.push(
+          `<div class="history-item"><strong>${labels[k]}</strong><div>${escapeHtml(data[k])}</div></div>`
+        );
+      }
+    });
+
+    content.className = 'history-grid';
+    content.innerHTML = items.join('');
+  }
+
+  // ---------- calendar ----------
+  function renderCalendar(){
+    const y = calendarCursor.getFullYear();
+    const m = calendarCursor.getMonth();
+    document.getElementById('calendarMonth').textContent = `${y}年${m+1}月`;
+
+    const grid = document.getElementById('calendarGrid');
+    grid.innerHTML = '';
+
+    const first = new Date(y,m,1);
+    const mondayIndex = (first.getDay()+6)%7;
+    const start = new Date(y,m,1-mondayIndex);
+    const todayKey = formatDateKey(new Date());
+
+    for(let i=0;i<42;i++){
+      const date = new Date(start);
+      date.setDate(start.getDate()+i);
+      const key = formatDateKey(date);
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'day';
+      btn.textContent = date.getDate();
+
+      if(date.getMonth() !== m) btn.classList.add('muted');
+      if(key === todayKey) btn.classList.add('today');
+      if(key === selectedDateKey) btn.classList.add('selected');
+
+      const data = getStoredDay(key);
+      if(hasMeaningfulData(data)) btn.classList.add('has-data');
+      if(getCalendarSticky(key).trim()) btn.classList.add('has-note');
+
+      btn.addEventListener('click', () => switchSelectedDate(key, date));
+
+      grid.appendChild(btn);
+    }
+  }
+
+  window.changeMonth = function(delta){
+    calendarCursor.setMonth(calendarCursor.getMonth()+delta);
+    renderCalendar();
+  };
+
+  window.jumpToToday = function(){
+    const now = new Date();
+    switchSelectedDate(formatDateKey(now), now);
+  };
+
+  function switchSelectedDate(nextDateKey, nextDate){
+    if(nextDateKey === selectedDateKey){
+      if(nextDate && (
+        nextDate.getMonth() !== calendarCursor.getMonth() ||
+        nextDate.getFullYear() !== calendarCursor.getFullYear()
+      )){
+        calendarCursor = new Date(nextDate.getFullYear(), nextDate.getMonth(), 1);
+        renderCalendar();
+      }
+      return;
+    }
+
+    if(stickyNoteState.dirty){
+      const discard = confirm(
+        '这张便利贴有未保存修改。\n\n点击“取消”留在当前日期并先保存；点击“确定”放弃未保存修改并切换日期。'
+      );
+      if(!discard) return;
+      stickyNoteState = discardStickyDraft(stickyNoteState);
+    }
+
+    selectedDateKey = nextDateKey;
+    wordOffset = 0;
+
+    if(nextDate){
+      calendarCursor = new Date(nextDate.getFullYear(), nextDate.getMonth(), 1);
+    }
+
+    loadSelectedDay();
+    renderSelectedDateExperience(nextDateKey);
+    renderHistory(nextDateKey);
+    renderCalendarSticky(nextDateKey);
+    renderCalendar();
+  }
+
+
+
+  // ---------- per-date calendar sticky note ----------
+  const CALENDAR_NOTE_PREFIX = 'xiaolinCalendarStickyNote:';
+  const LEGACY_REMINDER_PREFIX = 'xiaolinSelfSupportReminders:';
+
+  function getCalendarSticky(key){
+    const direct = localStorage.getItem(CALENDAR_NOTE_PREFIX + key);
+    if(direct !== null) return direct;
+
+    // Migrate the former general sticky note to today's date without losing its text.
+    const todayKey = formatDateKey(new Date());
+    if(key === todayKey){
+      const oldGeneralNote = localStorage.getItem('standByMyselfStickyNote');
+      if(oldGeneralNote) return oldGeneralNote;
+    }
+
+    // Keep any notes entered in the previous reminder prototype.
+    try{
+      const oldItems = JSON.parse(localStorage.getItem(LEGACY_REMINDER_PREFIX + key) || '[]');
+      if(Array.isArray(oldItems) && oldItems.length){
+        return oldItems.map(item => {
+          const time = item.time ? `${item.time} · ` : '';
+          return `${time}${item.text || ''}`;
+        }).filter(Boolean).join('\n\n');
+      }
+    }catch(e){}
+    return '';
+  }
+
+  function saveCalendarSticky(key, value){
+    if(String(value || '').trim()){
+      localStorage.setItem(CALENDAR_NOTE_PREFIX + key, value);
+    }else{
+      localStorage.removeItem(CALENDAR_NOTE_PREFIX + key);
+    }
+  }
+
+  function renderCalendarSticky(key){
+    const date = parseDateKey(key);
+    const label = document.getElementById('calendarStickyDate');
+    const textarea = document.getElementById('calendarStickyText');
+    const status = document.getElementById('calendarStickyStatus');
+    if(label){
+      label.textContent = `给 ${date.getFullYear()}年${date.getMonth()+1}月${date.getDate()}日 的晓霖留句话。想到什么就写下来，不用分类。`;
+    }
+    stickyNoteState = makeStickyNoteState(getCalendarSticky(key));
+    if(textarea) textarea.value = stickyNoteState.draftValue;
+    renderCalendarStickyStatus();
+  }
+
+  function renderCalendarStickyStatus(){
+    const status = document.getElementById('calendarStickyStatus');
+    if(!status) return;
+    status.textContent = stickyNoteState.status;
+    status.classList.toggle('is-dirty', stickyNoteState.dirty);
+  }
+
+  window.saveCalendarStickyForSelectedDate = function(){
+    const textarea = document.getElementById('calendarStickyText');
+    if(!textarea) return;
+    stickyNoteState = updateStickyDraft(stickyNoteState, textarea.value);
+    const saved = commitStickyDraft(stickyNoteState);
+    saveCalendarSticky(selectedDateKey, saved.valueToPersist);
+    stickyNoteState = saved.nextState;
+    renderCalendarStickyStatus();
+    renderCalendar();
+  };
+
+  window.clearCalendarSticky = function(){
+    const textarea = document.getElementById('calendarStickyText');
+    if(!textarea || !textarea.value.trim()) return;
+    if(confirm('确定清空这一天的便利贴吗？')){
+      textarea.value = '';
+      saveCalendarSticky(selectedDateKey, '');
+      stickyNoteState = makeStickyNoteState('');
+      stickyNoteState.status = '已清空';
+      renderCalendarStickyStatus();
+      renderCalendar();
+    }
+  };
+
+  const calendarStickyTextarea = document.getElementById('calendarStickyText');
+  if(calendarStickyTextarea){
+    calendarStickyTextarea.addEventListener('input', () => {
+      stickyNoteState = updateStickyDraft(stickyNoteState, calendarStickyTextarea.value);
+      renderCalendarStickyStatus();
+    });
+  }
+
+  window.addEventListener('beforeunload', event => {
+    if(!stickyNoteState.dirty) return;
+    event.preventDefault();
+    event.returnValue = '';
+  });
+
+  // ---------- initialize ----------
+  loadSelectedDay();
+  renderSelectedDateExperience(selectedDateKey);
+  renderHistory(selectedDateKey);
+  renderCalendarSticky(selectedDateKey);
+  renderCalendar();
+});
+</script>
+
+</body>
+</html>
